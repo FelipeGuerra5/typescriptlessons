@@ -18,9 +18,9 @@ let nextVal = addOrConcat(2, 2, "concat");
 // 10 as string // TS will complain about it
 10; // TS wont complain about it, be careful!
 // The DOM
-const img = document.querySelector('img'); // !" Non Null assertion"
+const img = document.querySelector('img'); // ! = "Non Null assertion"
 const myImg = document.getElementById('#img');
-const nextImg = document.getElementById('#img'); // wont work in react
+const nextImg = document.getElementById('#img'); // Won't work in react
 img.src;
 myImg.src;
 nextImg.src;

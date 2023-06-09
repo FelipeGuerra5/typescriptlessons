@@ -27,9 +27,9 @@ let nextVal: number = addOrConcat(2, 2, "concat") as number
 (10 as unknown) as string // TS wont complain about it, be careful!
 
 // The DOM
-const img = document.querySelector('img')! // !" Non Null assertion"
+const img = document.querySelector('img')! // ! = "Non Null assertion"
 const myImg = document.getElementById('#img') as HTMLImageElement
-const nextImg = <HTMLImageElement>document.getElementById('#img') // wont work in react
+const nextImg = <HTMLImageElement>document.getElementById('#img') // Won't work in react
 
 img.src
 myImg.src
