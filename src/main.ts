@@ -1,120 +1,37 @@
-// These are called alias, as we are giving aliases to the TS types
-type stringOrNumber = string | number
+type One = string
+type Two = string | number
+type three = 'Hello'
 
-type stringOrNumberArray = (string | number)[]
+// Convert to more or less specific type
+let a: One = 'Hello'
+let b = a as Two // Less specific
+let c = a as three // more specific
 
-type Guitarist = {
-    name: string,
-    active: boolean,
-    albums: stringOrNumberArray
-}
+let d = <One>'world'
+let e = <string | number>'world' // This syntax cannot be used in React
 
-type UserID = stringOrNumber
-
-// interface = alias => This wont Work
-
-
-// Literal types
-let myName: " Felipe"
-
-let userName: " Felipe" | 'Jhon' | 'Amy'
-userName = 'Amy'
-
-const add = (a: number, b: number): number => {
-    return a + b
-}
-
-const logMsg = (message: any): void => {
-    console.log(message)
-}
-
-logMsg('Hello')
-logMsg(add(2, 3))
-
-// Arrow functions will work as well
-let subtract = function (c: number, d: number): number {
-    return c - d
-}
-
-// Literal type for functions
-type mathFunction = (a: number, b: number) => number
-
-// // A interface can be used as well although interface it's more like classes.
-// interface mathFunction {
-//     (a: number, b: number): number
-// } 
-
-
-let multiply: mathFunction = function (c, d) {
-    return c * d
-}
-
-logMsg('[Multiplying whit default params]\n' + multiply(2, 2))
-logMsg(multiply(2, 3))
-
-let arrowFuncTest: mathFunction = (a, b) => {
-    return a + b
-}
-
-// optional parameters
-// The optional param must be THE LAST on the list
-const addAll = (a: number, b: number, c?: number): number => {
-    if (typeof c !== 'undefined') {
-        return a + b + c
+const addOrConcat = (a: number, b: number, c: 'add' | 'concat'): number | string => {
+    if (c === 'add') {
+        return a + b
     }
-    return a + b
+    return '' + a + b
 }
 
-// Default param value
-const sumAll = (a: number = 2, b: number, c: number = 2): number => {
-    return a + b + c
-}
+// I know better than you
+let myVal: string = addOrConcat(2, 2, "concat") as string
 
-logMsg(addAll(2, 3, 2))
-logMsg(addAll(2, 3))
-logMsg(sumAll(2, 3, 2))
-logMsg(sumAll(2, 3))
+// Be careful the TS does not see a problem in it But String will be returned
+let nextVal: number = addOrConcat(2, 2, "concat") as number
 
-// If yo what to mark the first argument with default 
-// value you should pass the params as well as the first = unddefined
-logMsg(sumAll(undefined, 3))
+// 10 as string // TS will complain about it
+(10 as unknown) as string // TS wont complain about it, be careful!
 
-// NOTE: the Default value wont work with the lyteral types
+// The DOM
+const img = document.querySelector('img')! // !" Non Null assertion"
+const myImg = document.getElementById('#img') as HTMLImageElement
+const nextImg = <HTMLImageElement>document.getElementById('#img') // wont work in react
 
-// Rest parameters
-// Rest params should come at the end
-const total = (a: number, ...nums: number[]): number => {
-    return nums.reduce(((prev, curr) => prev + curr))
-}
-
-logMsg("[total]" + total(1, 2, 3, 4))
-
-// The never type
-const createError = (errMsg: string) => {
-    throw new Error(errMsg)
-}
-
-// A infinete loop will return a Never type as well
-const infinite = () => {
-    let i: number = 1
-    while (true) {
-        i++
-        if (i > 100) {
-            break
-        }
-    }
-}
-
-// Custom type guard
-const isNumber = (value: any): boolean => {
-    return typeof value === 'number'
-        ? true : false
-}
-
-// Use of the never type
-const numberOrString = (value: number | string): string => {
-    if (typeof value === 'string') return 'string'
-    if (isNumber(value)) return 'number'
-    return createError('This should never happen!')
-}
+img.src
+myImg.src
+nextImg.src
 
